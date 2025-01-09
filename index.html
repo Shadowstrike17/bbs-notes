@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBS Notes - AI-Powered Note Taking</title>
+    <title>BBS Notes - Modern Note Taking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -26,9 +27,15 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: 1.5rem;
-            font-weight: bold;
             color: #fff;
+        }
+
+        .logo i {
+            color: #8B5CF6;
         }
 
         .nav-buttons {
@@ -42,6 +49,9 @@
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-primary {
@@ -49,156 +59,228 @@
             color: white;
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #8B5CF6;
-            color: white;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-        }
-
         .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            text-align: left;
             padding: 4rem 2rem;
-            gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
         }
 
         .hero-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 1.5rem;
+            max-width: 600px;
         }
 
         .hero-title {
             font-size: 3.5rem;
-            line-height: 1.2;
+            margin-bottom: 1.5rem;
             background: linear-gradient(90deg, #fff, #8B5CF6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: #9CA3AF;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            padding: 1rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
-        }
-
-        .preview-container {
+        .feature-section {
+            padding: 4rem 2rem;
             position: relative;
         }
 
-        .preview-image {
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+        .jarvis-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 600px;
         }
 
-        @media (max-width: 768px) {
-            .hero {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
+        .feature-cube {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transform-style: preserve-3d;
+            animation: rotate 20s infinite linear;
+            cursor: pointer;
+        }
 
-            .hero-title {
-                font-size: 2.5rem;
-            }
+        .cube-face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
 
-            .features {
-                grid-template-columns: 1fr;
-            }
+        .cube-face:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .cube-face i {
+            font-size: 2rem;
+            color: #8B5CF6;
+        }
+
+        .feature-details {
+            position: absolute;
+            width: 300px;
+            padding: 1.5rem;
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .feature-details.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .jarvis-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, #8B5CF6);
+            height: 1px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .jarvis-line.active {
+            opacity: 1;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotateX(0) rotateY(0); }
+            to { transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg); }
+        }
+
+        .badges {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
     <nav>
-        <div class="logo">BBS Notes</div>
+        <div class="logo">
+            <i class="fas fa-book-open"></i>
+            BBS Notes
+        </div>
         <div class="nav-buttons">
-            <button class="btn btn-outline">Login</button>
+            <button class="btn btn-primary">Login</button>
             <button class="btn btn-primary">Sign Up</button>
         </div>
     </nav>
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Start your dream site with AI.</h1>
-                <p class="hero-subtitle">Zero code, maximum speed. Transform your notes with AI-powered features.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary">Get Started Free</button>
-                </div>
-                <div class="features">
-                    <div class="feature-card">
-                        <h3>Voice to Text</h3>
-                        <p>Convert speech to text instantly</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>Easy Sharing</h3>
-                        <p>Share notes with one click</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>AI Organization</h3>
-                        <p>Auto-organize your thoughts</p>
-                    </div>
-                </div>
-            </div>
-            <div class="preview-container">
-                <img src="https://placehold.co/600x400/1A1528/8B5CF6" alt="App Preview" class="preview-image">
-            </div>
-        </section>
-    </main>
+    <div class="badges">
+        <div class="badge">
+            <i class="fas fa-bolt"></i>
+            Lightning Fast
+        </div>
+        <div class="badge">
+            <i class="fas fa-shield-alt"></i>
+            Secure
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Transform Your Notes</h1>
+            <p>Experience the future of note-taking with BBS Notes. Voice-to-text, smart organization, and seamless sharing - all in one beautiful app.</p>
+            <button class="btn btn-primary">Start Your Journey Free</button>
+        </div>
+        <div class="video-container">
+            <img src="https://placehold.co/600x400/1A1528/8B5CF6" alt="BBS Notes Demo">
+        </div>
+    </section>
+
+    <section class="feature-section">
+        <div class="jarvis-container" id="jarvisContainer">
+            <!-- Features will be added dynamically -->
+        </div>
+    </section>
 
     <script>
-        // Add smooth scroll behavior
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+        const features = [
+            {
+                icon: 'fas fa-microphone-alt',
+                title: 'Voice Notes',
+                description: 'Transform your spoken words into perfectly formatted text notes instantly. Support for multiple languages and accents.',
+                position: { top: '20%', left: '20%' }
+            },
+            {
+                icon: 'fas fa-share-alt',
+                title: 'Easy Sharing',
+                description: 'Share notes with anyone, anywhere. Real-time collaboration and instant sync across all devices.',
+                position: { top: '20%', right: '20%' }
+            },
+            {
+                icon: 'fas fa-folder-tree',
+                title: 'Smart Organization',
+                description: 'Automatically categorize and tag your notes. Find anything in seconds with powerful search.',
+                position: { bottom: '20%', left: '20%' }
+            },
+            {
+                icon: 'fas fa-lock',
+                title: 'Secure Storage',
+                description: 'End-to-end encryption keeps your notes private and secure. Your data belongs to you.',
+                position: { bottom: '20%', right: '20%' }
+            }
+        ];
 
-        // Add animation to feature cards on scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        });
+        const container = document.getElementById('jarvisContainer');
 
-        document.querySelectorAll('.feature-card').forEach((card) => {
-            card.style.opacity = 0;
-            card.style.transform = 'translateY(20px)';
-            observer.observe(card);
+        features.forEach(feature => {
+            const details = document.createElement('div');
+            details.className = 'feature-details';
+            details.innerHTML = `
+                <h3>${feature.title}</h3>
+                <p>${feature.description}</p>
+            `;
+            Object.assign(details.style, feature.position);
+
+            const line = document.createElement('div');
+            line.className = 'jarvis-line';
+
+            container.appendChild(details);
+            container.appendChild(line);
+
+            // Add click event to show/hide details
+            setTimeout(() => {
+                details.classList.add('active');
+                line.classList.add('active');
+            }, Math.random() * 1000);
         });
     </script>
 </body>
